@@ -1,0 +1,25 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/glint/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${jdbc.url}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
+  data:
+    redis:
+      host: ${cache.url}
+  oauth:
+    kakao:
+      client-id: ${oauth.kakao.client-id}
+      callback-url: ${oauth.kakao.callback-url}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${s3.accessKey}
+      secretKey: ${s3.secretKey}
+    s3:
+      bucket: glint-image

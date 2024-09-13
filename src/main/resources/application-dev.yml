@@ -1,0 +1,28 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: aws-parameterstore:/config/glint/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${jdbc.url}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
+  data:
+    redis:
+      host: ${cache.url}
+  oauth:
+    kakao:
+      client-id: ${oauth.kakao.client-id}
+    # 개발 환경에서는 callback URL이 로컬호스트가 아닌 별도의 환경에 맞는 URL이 필요할 수 있음
+    callback-url: http://localhost:3000/glint/auth/kakao/callback
+  jms:
+    pub-sub-domain: true
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${s3.accessKey}
+      secretKey: ${s3.secretKey}
+    s3:
+      bucket: glint-image

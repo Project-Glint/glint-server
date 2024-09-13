@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: glint
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: false
+  data:
+    redis:
+      port: 6379
+  oauth:
+    kakao:
+      callback-url: http://localhost:8080/glint/auth/kakao/callback
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    root.level: info
