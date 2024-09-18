@@ -26,5 +26,5 @@ cloud:
 logging:
   level:
     org.hibernate.SQL: debug
-    org.hibernate.type: trace
+    org.hibernate.type: debug
     root.level: info
