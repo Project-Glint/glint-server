@@ -11,13 +11,23 @@ spring:
   data:
     redis:
       host: ${cache.url}
-  oauth:
-    kakao:
-      client-id: ${oauth.kakao.client-id}
-    # 개발 환경에서는 callback URL이 로컬호스트가 아닌 별도의 환경에 맞는 URL이 필요할 수 있음
-    callback-url: http://localhost:3000/glint/auth/kakao/callback
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id:  ${oauth2.kakao.client-id}
+            client-secret: ${oauth2.kakao.client-secret}
   jms:
     pub-sub-domain: true
+
+app:
+  auth:
+    tokenSecret: sdfasfsf
+    refreshTokenExpirationMsec: 7776000000
+    tokenExpirationMsec: 3600000
+  oauth2:
+    basescheme: "https"
 
 cloud:
   aws:

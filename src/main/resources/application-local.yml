@@ -4,12 +4,25 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/glint?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://127.0.0.1:13306/glint?useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 1234
+    password: root
   data:
     redis:
       host: localhost
-  oauth:
-    kakao:
-      client-id: local-kakao-client-id
+
+cloud:
+  aws:
+    credentials:
+      accessKey: asdbc
+      secretKey: sdbdf
+    s3:
+      bucket: glint-image
+
+app:
+  auth:
+    tokenSecret: adfsdfas
+    refreshTokenExpirationMsec: 7776000000
+    tokenExpirationMsec: 3600000
+  oauth2:
+    baseScheme: "http"

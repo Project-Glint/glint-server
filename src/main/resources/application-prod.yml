@@ -11,10 +11,6 @@ spring:
   data:
     redis:
       host: ${cache.url}
-  oauth:
-    kakao:
-      client-id: ${oauth.kakao.client-id}
-      callback-url: ${oauth.kakao.callback-url}
 
 cloud:
   aws:

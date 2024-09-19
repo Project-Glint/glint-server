@@ -9,12 +9,35 @@ spring:
         ddl-auto: none
         dialect: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: false
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: f8036998a483e59f4b24f904a006c6e9
+            client-secret: aaE4QfjT99GGzF3DDJcgaPaZeGke3o5g
   data:
     redis:
       port: 6379
-  oauth:
-    kakao:
-      callback-url: http://localhost:8080/glint/auth/kakao/callback
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    tags-sorter: alpha
+    operations-sorter: method
+
+app:
+  appScheme: "glint://"
+  oauth2:
+    authorizedRedirectUris:
+      - https://api.glint.com/oauth2/redirect
+      - http://localhost:8080/oauth2/redirect
+      - glint://oauth
+    baseScheme: "https"
+  slack:
+    webhook-url: https://hooks.slack.com/services/
+    error-noti-token: TEST
 
 cloud:
   aws:
