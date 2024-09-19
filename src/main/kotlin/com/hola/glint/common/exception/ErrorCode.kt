@@ -8,12 +8,13 @@ enum class ErrorCode(val status: Int, val code: String, val message: String) {
     // Common
     INVALID_INPUT_VALUE(400, "C001", "Invalid Input Value"),
     METHOD_NOT_ALLOWED(405, "C002", "Method Not Allowed"),
-    ENTITY_NOT_FOUND(400, "C003", "Entity Not Found"),
+    ENTITY_NOT_FOUND(404, "C003", "Entity Not Found"),
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     INVALID_TYPE_VALUE(400, "C005", "Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
     DATETIME_PARSE_WRONG(400, "C007", "DateTime Parse is Wrong"),
     UNEXPECTED_TYPE(400, "C008", "Request Param Type is Wrong"),
+    UNAUTHORIZED(401, "C009", "Authorization required"),
 
     // user
     EMAIL_DUPLICATION(400, "U001", "Email is Duplication"),

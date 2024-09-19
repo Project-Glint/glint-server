@@ -32,7 +32,7 @@ class ServiceExceptionHandler {
     }
 
     /**
-     * @ModelAttribut 으로 binding error 발생시 BindException 발생한다.
+     * @ModelAttribute 으로 binding error 발생시 BindException 발생한다.
      * ref https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-modelattrib-method-args
      */
     @ExceptionHandler(BindException::class)
@@ -64,7 +64,7 @@ class ServiceExceptionHandler {
     }
 
     /**
-     * Authentication 객체가 필요한 권한을 보유하지 않은 경우 발생합
+     * Authentication 객체가 필요한 권한을 보유하지 않은 경우 발생
      */
     @ExceptionHandler(AccessDeniedException::class)
     protected fun handleAccessDeniedException(e: AccessDeniedException?): ResponseEntity<Any?> {
@@ -73,6 +73,16 @@ class ServiceExceptionHandler {
         return ResponseEntity<Any?>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.status))
     }
 
+    /**
+     * Entity Not Found 라던지 비지니스 로직에서 개발자가 Checked Exception 처리한 경우 발생함
+     */
+    @ExceptionHandler(BadRequestException::class)
+    fun handleException(e: BadRequestException): ResponseEntity<ErrorResponse> {
+        logger.error("BadRequestException", e)
+
+        val response: ErrorResponse = of(e.errorCode)
+        return ResponseEntity<ErrorResponse>(response, HttpStatus.BAD_REQUEST)
+    }
 
 //    /**
 //     * DateTimeParsing 형식이 잘못된 경우 발생

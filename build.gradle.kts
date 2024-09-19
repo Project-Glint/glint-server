@@ -29,6 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
     runtimeOnly("com.mysql:mysql-connector-j")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
