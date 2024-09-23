@@ -2,6 +2,7 @@ package com.hola.glint.system.error
 
 import com.hola.glint.common.exception.ErrorCode
 import com.hola.glint.system.error.ErrorResponse.Companion.of
+import mu.KotlinLogging
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import java.nio.file.AccessDeniedException
 
+val logger = KotlinLogging.logger {}
+
 @ControllerAdvice
 class ServiceExceptionHandler {
-    private val logger: Logger = LoggerFactory.getLogger(ServiceExceptionHandler::class.java)
-
 
     /**
      * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
@@ -112,7 +113,7 @@ class ServiceExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     protected fun handleException(e: Exception?): ResponseEntity<ErrorResponse> {
-        logger.error("handleEntityNotFoundException", e)
+        logger.error(e) { "handleException: ${e?.message}" }
         val response: ErrorResponse = of(ErrorCode.INTERNAL_SERVER_ERROR)
         return ResponseEntity<ErrorResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR)
     }

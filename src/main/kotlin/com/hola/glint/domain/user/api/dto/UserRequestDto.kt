@@ -14,6 +14,13 @@ data class UserRequestDto(
     val email: String,
 
     @Schema(
+        description = "User Name",
+        example = "홍길동",
+        required = true
+    )
+    val name: String,
+
+    @Schema(
         description = "Auth Provider",
         example = "KAKAO",
         required = true
@@ -43,12 +50,13 @@ data class UserRequestDto(
     }
 
     companion object {
-        fun of(email: String, role: String, provider: AuthProvider, providerId: String) =
+        fun of(email: String, name: String, role: String, provider: AuthProvider, providerId: String) =
             UserRequestDto(
                 email = email,
                 role = role,
                 provider = provider,
                 providerId = providerId,
+                name = name,
             )
 
     }

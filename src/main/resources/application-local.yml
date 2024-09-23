@@ -21,8 +21,8 @@ cloud:
 
 app:
   auth:
-    tokenSecret: adfsdfas
+    tokenSecret: glintjwtsecretkey1234844saf23jsfoiau3oi4jesoidfjio
+    tokenExpirationMsec: 1800000 # 30분
     refreshTokenExpirationMsec: 7776000000
-    tokenExpirationMsec: 3600000
   oauth2:
     baseScheme: "http"

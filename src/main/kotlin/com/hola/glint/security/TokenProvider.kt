@@ -1,6 +1,9 @@
 package com.hola.glint.security
 
+import com.hola.glint.common.exception.ErrorCode
 import com.hola.glint.system.config.AppProperties
+import com.hola.glint.system.error.GlintException
+import com.hola.glint.system.error.UnauthorizedException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jws
@@ -9,6 +12,7 @@ import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import java.security.SignatureException
@@ -21,15 +25,15 @@ class TokenProvider(
     private val appProperties: AppProperties,
 ) {
     private val log = KotlinLogging.logger { }
-    private val secretKey = SecretKeySpec(Decoders.BASE64.decode(appProperties.auth.tokenSecret), SignatureAlgorithm.HS512.jcaName)
+    private val secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(appProperties.auth.tokenSecret))
 
     fun createAccessToken(userId: Long): String {
         val now = Date()
         val expiryDate = Date(now.time + appProperties.auth.tokenExpirationMsec)
         return Jwts.builder()
-            .setSubject(userId.toString())
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
+            .subject(userId.toString())
+            .issuedAt(now)
+            .expiration(expiryDate)
             .signWith(secretKey)
             .compact()
     }
@@ -38,9 +42,9 @@ class TokenProvider(
         val now = Date()
         val expiryDate = Date(now.time + appProperties.auth.refreshTokenExpirationMsec)
         return Jwts.builder()
-            .setSubject(userId.toString())
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
+            .subject(userId.toString())
+            .issuedAt(now)
+            .expiration(expiryDate)
             .claim("value", UUID.randomUUID().toString())
             .signWith(secretKey)
             .compact()
@@ -56,11 +60,21 @@ class TokenProvider(
     }
 
     fun getClaims(token: String): Claims {
-        return Jwts.parser()
-            .verifyWith(secretKey)
-            .build()
-            .parseSignedClaims(token)
-            .payload
+        try {
+            return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .payload
+        } catch (e: ExpiredJwtException) {
+            throw UnauthorizedException(ErrorCode.UNAUTHORIZED)
+        } catch (e: MalformedJwtException) {
+            throw UnauthorizedException(ErrorCode.UNAUTHORIZED)
+        } catch (e: IllegalArgumentException) {
+            throw UnauthorizedException(ErrorCode.UNAUTHORIZED)
+        } catch (e: Exception) {
+            throw GlintException(ErrorCode.INTERNAL_SERVER_ERROR)
+        }
     }
 
     fun validateToken(authToken: String): Boolean {

@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.stereotype.Component
 
 @Component
-class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepository<OAuth2AuthorizationRequest?> {
+class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
     override fun loadAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
         return getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME)
             ?.let { deserialize(it, OAuth2AuthorizationRequest::class.java) }

@@ -43,6 +43,7 @@ class User(
         fun createNewUser(userRequestDto: UserRequestDto): User {
 
             return User(
+                name = userRequestDto.name,
                 email = userRequestDto.email,
                 archived = false,
                 provider = userRequestDto.provider,

@@ -26,7 +26,7 @@ enum class CustomOAuth2Provider {
         override fun getBuilder(registrationId: String, baseScheme: String): ClientRegistration.Builder =
             getBuilder(registrationId, ClientAuthenticationMethod.CLIENT_SECRET_BASIC, getRedirectUrl(baseScheme))
                 .apply {
-                    scope("profile_nickname", "profile_image")
+                    scope("profile_nickname", "profile_image", "account_email")
                     authorizationUri("https://kauth.kakao.com/oauth/authorize")
                     tokenUri("https://kauth.kakao.com/oauth/token")
                     userInfoUri("https://kapi.kakao.com/v2/user/me")
