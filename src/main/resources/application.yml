@@ -31,7 +31,7 @@ app:
   appScheme: "glint://"
   oauth2:
     authorizedRedirectUris:
-      - https://api.glint.com/oauth2/redirect
+      - https://api.glint.com/oauth2/callback/kakao
       - http://localhost:8080/oauth2/callback/kakao
       - glint://oauth
     baseScheme: "https"

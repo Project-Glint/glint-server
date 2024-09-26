@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import mu.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
 import org.springframework.stereotype.Component
@@ -15,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder
 @Component
 class OAuth2AuthenticationFailureHandler(
     private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
-    @Value("\${app.appScheme}") private val appScheme: String,
 ) :
     SimpleUrlAuthenticationFailureHandler() {
 
@@ -32,11 +30,10 @@ class OAuth2AuthenticationFailureHandler(
         log.error { "OAuth2 authentication failure: ${exception.localizedMessage}" }
         httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response)
 
-        redirectStrategy.sendRedirect(request, response, REDIRECT_APP_MAIN)
+        redirectStrategy.sendRedirect(request, response, targetUrl)
     }
 
     companion object {
-        const val REDIRECT_APP_MAIN = "/api/v1/user/auth/redirect/main"
         val log = KotlinLogging.logger {}
     }
 }

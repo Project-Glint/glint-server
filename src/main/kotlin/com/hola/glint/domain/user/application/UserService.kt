@@ -31,7 +31,7 @@ class UserService(
         return UserResponseDto.from(user)
     }
 
-    fun getUserInfoBy(userId: Long): UserInfoResponseDto {
+    fun findUserInfoBy(userId: Long): UserInfoResponseDto {
         val user = userRepository.findById(userId)
             .orElseThrow { BadRequestException(ErrorCode.ENTITY_NOT_FOUND, "유저 정보를 찾을 수 없습니다.") }
 

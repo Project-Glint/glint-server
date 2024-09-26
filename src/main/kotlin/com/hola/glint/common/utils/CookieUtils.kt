@@ -21,7 +21,7 @@ object CookieUtils {
     }
 
     @JvmStatic
-    fun addCookie(response: HttpServletResponse, name: String?, value: String?, maxAge: Int) {
+    fun addCookie(response: HttpServletResponse, name: String, value: String, maxAge: Int) {
         val cookie = Cookie(name, value)
         cookie.path = "/"
         cookie.isHttpOnly = true

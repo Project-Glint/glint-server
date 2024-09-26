@@ -1,5 +1,6 @@
 package com.hola.glint.system.config
 
+import com.hola.glint.domain.auth.application.PersistedRefreshTokenService
 import com.hola.glint.security.*
 import com.hola.glint.security.oauth2.CustomOAuth2Provider
 import com.hola.glint.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository
@@ -35,6 +36,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 class SecurityConfig(
     private val tokenProvider: TokenProvider,
     private val customUserDetailsService: CustomUserDetailsService,
+    private val persistedRefreshTokenService: PersistedRefreshTokenService,
     private val appProperties: AppProperties,
     private val customOAuth2UserService: CustomOAuth2UserService,
     private val oAuth2AuthenticationSuccessHandler: OAuth2AuthenticationSuccessHandler,
@@ -43,7 +45,7 @@ class SecurityConfig(
 ) {
     @Bean
     fun tokenAuthenticationFilter(): TokenAuthenticationFilter {
-        return TokenAuthenticationFilter(tokenProvider, customUserDetailsService)
+        return TokenAuthenticationFilter(tokenProvider, customUserDetailsService, persistedRefreshTokenService)
     }
 
     @Bean

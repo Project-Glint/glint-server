@@ -45,6 +45,18 @@ data class ResponseData<T>(
                     )
                 )
 
+        // 201 CREATED(success): response data가 있을 때
+        fun <T> created(data: T) =
+            ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                    ResponseData(
+                        status = "success",
+                        code = 200,
+                        data = data
+                    )
+                )
+
         fun successResult(data: Boolean) =
             ResponseEntity
                 .status(HttpStatus.OK)

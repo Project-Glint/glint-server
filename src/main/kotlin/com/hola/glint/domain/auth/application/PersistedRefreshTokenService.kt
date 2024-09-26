@@ -11,6 +11,14 @@ class PersistedRefreshTokenService(
     private val userRepository: UserRepository,
     private val refreshTokenRepository: RefreshTokenRepository,
 ) {
+    fun getPersistedRefreshToken(userId: Long): PersistedRefreshToken? {
+        return refreshTokenRepository.getByUserId(userId)
+    }
+
+    fun getPersistedRefreshToken(refreshToken: String): PersistedRefreshToken? {
+        return refreshTokenRepository.getByRefreshToken(refreshToken)
+    }
+
     @Transactional
     fun persistRefreshToken(userId: Long, refreshToken: String) {
         val old = refreshTokenRepository.getByUserId(userId)

@@ -1,5 +1,9 @@
 package com.hola.glint.domain.user.api.dto
 
+import com.hola.glint.domain.keyword.api.dto.UniversityResponseDto
+import com.hola.glint.domain.keyword.api.dto.WorkResponseDto
+import com.hola.glint.domain.keyword.entity.UniversityCategory
+import com.hola.glint.domain.keyword.entity.WorkCategory
 import com.hola.glint.domain.user.entity.UserProfile
 import com.hola.glint.domain.user.entity.enumerated.DrinkingType
 import com.hola.glint.domain.user.entity.enumerated.Religion
@@ -11,8 +15,9 @@ data class UserProfileResponseDto(
     @Schema(description = "User Profile ID", example = "1", nullable = false)
     private val id: Long? = null,
 
-//    private val work: WorkResponse? = null
-//    private val university: UniversityResponse? = null
+    private val work: WorkResponseDto? = null,
+    private val university: UniversityResponseDto? = null,
+
 //    private val location: LocationResponse? = null
 
     @Schema(description = "User ID", example = "1", nullable = false)
@@ -37,6 +42,8 @@ data class UserProfileResponseDto(
         fun from(userProfile: UserProfile) =
             UserProfileResponseDto (
                 userId = userProfile.userId,
+                work = WorkResponseDto.from(userProfile.work, userProfile.work?.workCategory),
+                university = UniversityResponseDto.from(userProfile.university, userProfile.university?.universityCategory),
                 smokingType = userProfile.smokingType,
                 religion = userProfile.religion,
                 drinkingType = userProfile.drinkingType,

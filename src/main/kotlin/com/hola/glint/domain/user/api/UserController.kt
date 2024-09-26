@@ -22,7 +22,7 @@ class UserController(
     @Operation(summary = "Get userInfo", description = "user, userDetail, userProfile 모든 정보 조회")
     @GetMapping(value = ["/{userId}/info"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getUserInfo(@PathVariable("userId") userId: Long) =
-        ResponseData.success(userService.getUserInfoBy(userId))
+        ResponseData.success(userService.findUserInfoBy(userId))
 
     /*@Operation(summary = "Delete user", description = "User 삭제, 참가중인 미팅에서 모두 Out,참가신청 모두 거절")
     @DeleteMapping(value = ["/{userId}"], produces = [MediaType.APPLICATION_JSON_VALUE])

@@ -104,7 +104,7 @@ class UserDetail(
                 profileImage = profileImage,
         )
 
-        /*fun createTempUserDetailByNickName(userId: Long) =
+        fun createTempUserDetailByNickName(userId: Long) =
             UserDetail(
                 userId = userId,
                 nickname = TODO(),
@@ -112,7 +112,7 @@ class UserDetail(
                 birthdate = TODO(),
                 height = TODO(),
                 profileImage = TODO()
-            )*/
+            )
 
         fun calculateAge(birthDate: LocalDate?): Int {
             return Period.between(birthDate, LocalDate.now()).years
