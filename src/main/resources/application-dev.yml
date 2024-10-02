@@ -23,7 +23,7 @@ spring:
 
 app:
   auth:
-    tokenSecret: sdfasfsf
+    tokenSecret: glintjwtsecretkey1234844saf23jsfoiau3oi4jesoidfjio
     refreshTokenExpirationMsec: 7776000000
     tokenExpirationMsec: 3600000
   oauth2:
