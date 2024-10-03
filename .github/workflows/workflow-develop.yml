@@ -38,19 +38,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 4. 커밋 해시를 태그로 Docker 이미지 빌드 및 푸시
-      - name: Extract metadata (tags, labels) for Docker
+      # 4. Docker 메타데이터 추출 (태그 및 레이블 자동 생성)
+      - name: Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/$(echo ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=sha
 
+      # 5. Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: Dockerfile # repository 기준 도커파일 위치
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
