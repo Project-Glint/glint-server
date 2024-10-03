@@ -30,7 +30,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 3. GitHub Container Registry 로그인
+      # 3. Gradle 캐시 설정
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # 4. GitHub Container Registry 로그인
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -38,7 +47,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 4. Docker 메타데이터 추출 (태그 및 레이블 자동 생성)
+      # 5. Docker 메타데이터 추출 (태그 및 레이블 자동 생성)
       - name: Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v4
@@ -47,7 +56,7 @@ jobs:
           tags: |
             type=sha
 
-      # 5. Docker 이미지 빌드 및 푸시
+      # 6. Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
