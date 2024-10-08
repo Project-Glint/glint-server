@@ -19,9 +19,9 @@ spring:
           kakao:
             client-id: f8036998a483e59f4b24f904a006c6e9
             client-secret: WBoQLLideGlijmNhNEKLkXZbYTHPh9F3
-  data:
-    redis:
-      port: 6379
+#  data:
+#    redis:
+#      port: 6379
 
 springdoc:
   swagger-ui:
@@ -51,4 +51,4 @@ cloud:
 
 logging:
   level:
-    root.level: info
+    root: info
