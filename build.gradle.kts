@@ -34,9 +34,9 @@ dependencies {
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis:3.3.1")
-    implementation("org.springframework.boot:spring-boot-starter-cache:3.1.2")
-    implementation("org.redisson:redisson-spring-boot-starter:3.32.0")
+//    implementation("org.springframework.boot:spring-boot-starter-data-redis:3.3.1")
+//    implementation("org.springframework.boot:spring-boot-starter-cache:3.1.2")
+//    implementation("org.redisson:redisson-spring-boot-starter:3.32.0")
     implementation("com.auth0:java-jwt:4.4.0")
 
     implementation("org.springframework.boot:spring-boot-starter-websocket")
