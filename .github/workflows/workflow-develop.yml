@@ -55,9 +55,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            sha-${{ github.sha }}
+            type=sha
 
       # 6. Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
@@ -79,7 +79,7 @@ jobs:
           port: 22                                     # SSH Port
           script: |
             # 1. 최신 Docker 이미지 Pull
-            docker pull ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+            docker pull ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
             
             # 2. 기존 컨테이너 중지 및 삭제
             docker stop glint_backend || true
