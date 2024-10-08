@@ -14,7 +14,7 @@ class SwaggerConfig {
     fun openAPI(): OpenAPI {
         val info = Info()
             .version("v1.0.0")
-            .title("API 타이틀")
+            .title("Glint-API")
             .description("API Description")
 
         // SecuritySecheme명
