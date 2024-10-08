@@ -8,9 +8,8 @@ WORKDIR /app
 COPY gradle/wrapper gradle/wrapper
 COPY gradlew gradlew
 COPY build.gradle.kts settings.gradle.kts ./
+RUN ./gradlew dependencies --no-daemon || return 0
 
-# 의존성 캐싱 (Gradle 빌드 시간 단축)
-RUN ./gradlew dependencies --no-daemon
 
 # 나머지 소스 코드 복사
 COPY src src
