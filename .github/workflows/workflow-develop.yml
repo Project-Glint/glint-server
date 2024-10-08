@@ -57,7 +57,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            sha-${{ github.sha }}
+            type=sha
 
       # 6. Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
@@ -79,14 +79,14 @@ jobs:
           port: 22                                     # SSH Port
           script: |
             # 1. 최신 Docker 이미지 Pull
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} 
             
             # 2. 기존 컨테이너 중지 및 삭제
             docker stop glint_backend || true
             docker rm glint_backend || true
             
             # 3. 새로운 컨테이너 실행
-            docker run -d --name glint_backend -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+            docker run -d --name glint_backend -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
             
             # 4. 사용하지 않는 이미지 삭제
             docker image prune -a -f
