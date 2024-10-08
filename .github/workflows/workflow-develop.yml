@@ -75,8 +75,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}                # EC2 주소
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}      # SSH Key
+          username: ${{ secrets.EC2_USER }}
+          password: ${{ secrets.EC2_PASSWORD }}      # SSH Key
           port: 22                                     # SSH Port
           script: |
             # 1. 최신 Docker 이미지 Pull
