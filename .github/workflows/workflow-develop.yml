@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: project-glint/glint-server  # 이미지 이름을 고정
 
 jobs:
   build-and-push-image:
@@ -42,7 +42,6 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-
       # 4. GitHub Container Registry 로그인
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
@@ -56,9 +55,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ghcr.io/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha
+            sha-${{ github.sha }}
 
       # 6. Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
@@ -76,21 +75,18 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}                # EC2 주소
           username: ${{ secrets.EC2_USER }}
-          password: ${{ secrets.EC2_PASSWORD }}      # SSH Key
+          password: ${{ secrets.EC2_PASSWORD }}        # 비밀번호를 사용한 인증
           port: 22                                     # SSH Port
           script: |
             # 1. 최신 Docker 이미지 Pull
-            docker pull ghcr.io/project-glint/glint-server:${{ steps.meta.outputs.tags }}
+            docker pull ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
             
             # 2. 기존 컨테이너 중지 및 삭제
             docker stop glint_backend || true
             docker rm glint_backend || true
             
             # 3. 새로운 컨테이너 실행
-            docker run -d --name glint_backend -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev ghcr.io/project-glint/glint-server:${{ steps.meta.outputs.tags }}
+            docker run -d --name glint_backend -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
             
             # 4. 사용하지 않는 이미지 삭제
             docker image prune -a -f
-
-
-
