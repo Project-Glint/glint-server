@@ -2,22 +2,22 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: aws-parameterstore:/config/glint/
+#    import: aws-parameterstore:/config/glint/
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${jdbc.url}
-    username: ${jdbc.username}
-    password: ${jdbc.password}
-  data:
-    redis:
-      host: ${cache.url}
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id:  ${oauth2.kakao.client-id}
-            client-secret: ${oauth2.kakao.client-secret}
+    url: jdbc:mysql://glint-db.cl4g4ogcerb5.ap-northeast-2.rds.amazonaws.com:3306/glint?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: glintserver
+#  data:
+#    redis:
+#      host: ${cache.url}
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id:  ${oauth2.kakao.client-id}
+#            client-secret: ${oauth2.kakao.client-secret}
   jms:
     pub-sub-domain: true
 
@@ -32,7 +32,7 @@ app:
 cloud:
   aws:
     credentials:
-      accessKey: ${s3.accessKey}
-      secretKey: ${s3.secretKey}
+      accessKey: test
+      secretKey: test
     s3:
       bucket: glint-image
