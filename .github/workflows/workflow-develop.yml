@@ -66,6 +66,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha  # Docker 레이어 캐시를 가져옴
-          cache-to: type=gha,mode=max  # 빌드 후 레이어 캐시를 저장
+
 
