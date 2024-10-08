@@ -14,6 +14,9 @@ env:
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}  # 같은 브랜치의 동일한 작업 그룹
+      cancel-in-progress: true  # 이전 실행 중인 작업 취소
     permissions:
       contents: read
       packages: write  # GitHub Packages에 푸시할 수 있는 권한 부여
