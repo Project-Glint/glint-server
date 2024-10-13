@@ -12,5 +12,6 @@ interface UserRepository : JpaRepository<User, Long> {
     @Query("""select u from User u where u.id in :ids""")
     fun findByIds(ids: List<Long>): List<User>
 
+    @Query("""select u from User u where u.kakaoProviderId = :providerId""")
     fun findByKakaoProviderId(providerId: String): User?
 }

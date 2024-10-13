@@ -27,7 +27,7 @@ app:
     refreshTokenExpirationMsec: 7776000000
     tokenExpirationMsec: 3600000
   oauth2:
-    basescheme: "https"
+    baseScheme: "http"
 
 cloud:
   aws:

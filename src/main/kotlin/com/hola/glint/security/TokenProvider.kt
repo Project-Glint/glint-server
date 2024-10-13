@@ -22,7 +22,6 @@ import java.util.UUID
 class TokenProvider(
     private val appProperties: AppProperties,
 ) {
-    private val log = KotlinLogging.logger { }
     private val secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(appProperties.auth.tokenSecret))
 
     fun createAccessToken(userId: Long): String {
@@ -102,5 +101,9 @@ class TokenProvider(
             .verifyWith(secretKey)
             .build()
             .parseSignedClaims(token)
+    }
+
+    companion object {
+        private val log = KotlinLogging.logger { }
     }
 }

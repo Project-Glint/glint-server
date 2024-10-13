@@ -24,15 +24,15 @@ enum class CustomOAuth2Provider {
     },*/
     KAKAO {
         override fun getBuilder(registrationId: String, baseScheme: String): ClientRegistration.Builder =
-            getBuilder(registrationId, ClientAuthenticationMethod.CLIENT_SECRET_BASIC, getRedirectUrl(baseScheme))
+            getBuilder(registrationId, ClientAuthenticationMethod.CLIENT_SECRET_POST, getRedirectUrl(baseScheme))
                 .apply {
                     scope("profile_nickname", "profile_image", "account_email")
                     authorizationUri("https://kauth.kakao.com/oauth/authorize")
                     tokenUri("https://kauth.kakao.com/oauth/token")
                     userInfoUri("https://kapi.kakao.com/v2/user/me")
                     userNameAttributeName("id")
-                    jwkSetUri("temp")
-                    clientName("Kakao")
+//                    jwkSetUri("temp")
+                    clientName("kakao")
                     clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 }
 
@@ -78,7 +78,7 @@ enum class CustomOAuth2Provider {
     companion object {
         fun getRedirectUrl(baseScheme: String) = "$baseScheme://{baseHost}{basePort}{basePath}/oauth2/callback/{registrationId}"
         fun getProvider(clientName: String): CustomOAuth2Provider {
-            values().forEach {
+            entries.forEach {
                 if (clientName == it.getClientName()) {
                     return it
                 }

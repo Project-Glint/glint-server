@@ -18,6 +18,7 @@ import java.net.URI
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import mu.KotlinLogging
 
 @Component
 class OAuth2AuthenticationSuccessHandler(
@@ -31,7 +32,7 @@ class OAuth2AuthenticationSuccessHandler(
     override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
         val targetUrl = determineTargetUrl(request, response, authentication)
         if (response.isCommitted) {
-            logger.debug("Response has already been committed. Unable to redirect to $targetUrl")
+            log.debug("Response has already been committed. Unable to redirect to $targetUrl")
             return
         }
         clearAuthenticationAttributes(request, response)
@@ -76,5 +77,10 @@ class OAuth2AuthenticationSuccessHandler(
                 }
                 false
             }
+    }
+
+
+    companion object {
+        private val log = KotlinLogging.logger { }
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.BeanIds
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -27,7 +28,6 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @Configuration
 @EnableWebSecurity
@@ -58,7 +58,7 @@ class SecurityConfig(
         return JwtExceptionFilter()
     }
 
-    @Bean
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Throws(Exception::class)
     fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
         return authenticationConfiguration.authenticationManager
@@ -84,13 +84,27 @@ class SecurityConfig(
                 accessDeniedHandler = CustomAccessDeniedHandler()
             }
             authorizeHttpRequests {
-                authorize(AntPathRequestMatcher("/v1/auth/**"), permitAll)
-                authorize(AntPathRequestMatcher("/oauth2/**"), permitAll)
-                authorize(AntPathRequestMatcher("/swagger-ui/**"), permitAll)
-                authorize(AntPathRequestMatcher("/v3/api-docs/**"), permitAll)
-                authorize(AntPathRequestMatcher("/health"), permitAll)
+                authorize("/v1/auth/**", permitAll)
+                authorize("/oauth2/**", permitAll)
+                authorize("/swagger-ui/**", permitAll)
+                authorize("/v3/api-docs/**", permitAll)
+                authorize("/health", permitAll)
+
+                authorize("/", permitAll)
+                authorize("/error", permitAll)
+                authorize("/robots.txt", permitAll)
+                authorize("/favicon.ico", permitAll)
+                authorize("/**/*.png", permitAll)
+                authorize("/**/*.gif", permitAll)
+                authorize("/**/*.svg", permitAll)
+                authorize("/**/*.jpg", permitAll)
+                authorize("/**/*.html", permitAll)
+                authorize("/**/*.css", permitAll)
+                authorize("/**/*.js", permitAll)
                 authorize(anyRequest, permitAll)
             }
+            addFilterBefore<UsernamePasswordAuthenticationFilter>(tokenAuthenticationFilter())
+            addFilterBefore<TokenAuthenticationFilter>(jwtExceptionFilter())
             oauth2Login {
                 authorizationEndpoint {
                     baseUri = "/oauth2/authorize"
@@ -103,11 +117,9 @@ class SecurityConfig(
                     userService = customOAuth2UserService
                 }
                 clientRegistrationRepository = clientRegistrationRepository(appProperties, oAuth2ClientProperties)
-                oAuth2AuthenticationSuccessHandler
-                oAuth2AuthenticationFailureHandler
+                authenticationSuccessHandler = oAuth2AuthenticationSuccessHandler
+                authenticationFailureHandler = oAuth2AuthenticationFailureHandler
             }
-            addFilterBefore<UsernamePasswordAuthenticationFilter>(tokenAuthenticationFilter())
-            addFilterBefore<TokenAuthenticationFilter>(jwtExceptionFilter())
         }
         return http.build()
     }

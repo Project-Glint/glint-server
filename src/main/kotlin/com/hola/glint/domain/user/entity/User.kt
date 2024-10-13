@@ -26,9 +26,15 @@ class User(
     val role: String?,
 
     @Column(name = "provider")
+    @Enumerated(EnumType.STRING)
     val provider: AuthProvider,
 
-    @Column(name = "kakao_provider_id", nullable = true, length = 127, updatable = true)
+    @Column(
+        name = "kakao_provider_id",
+        nullable = true,
+        length = 127,
+        updatable = true
+    )
     var kakaoProviderId: String? = null,
 
     @Column(name = "archived")

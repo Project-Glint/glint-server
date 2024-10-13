@@ -4,7 +4,6 @@ import com.hola.glint.domain.user.api.dto.UserRequestDto
 import com.hola.glint.domain.user.application.UserService
 import com.hola.glint.domain.user.entity.User
 import com.hola.glint.security.UserPrincipal
-import com.hola.glint.security.oauth2.AuthProvider
 import com.hola.glint.security.oauth2.user.OAuth2UserInfoFactory.getOAuth2UserInfo
 import mu.KotlinLogging
 import org.springframework.security.authentication.InternalAuthenticationServiceException
@@ -24,16 +23,13 @@ class CustomOAuth2UserService(
     override fun loadUser(oAuth2UserRequest: OAuth2UserRequest): OAuth2User {
         val oAuth2User = super.loadUser(oAuth2UserRequest)
 
-        return processOAuth2User(oAuth2UserRequest, oAuth2User)
-        /*
         try {
-            processOAuth2User(oAuth2UserRequest, oAuth2User)
+            return processOAuth2User(oAuth2UserRequest, oAuth2User)
         } catch (ex: AuthenticationException) {
             throw ex
         } catch (ex: Exception) { // Throwing an instance of AuthenticationException will trigger the OAuth2AuthenticationFailureHandler
             throw InternalAuthenticationServiceException(ex.message, ex.cause)
         }
-         */
     }
 
     private fun processOAuth2User(oAuth2UserRequest: OAuth2UserRequest, oAuth2User: OAuth2User): OAuth2User {
