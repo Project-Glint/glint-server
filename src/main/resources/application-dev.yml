@@ -5,8 +5,8 @@ spring:
 #    import: aws-parameterstore:/config/glint/
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://glint-db.cl4g4ogcerb5.ap-northeast-2.rds.amazonaws.com:3306/glint?useSSL=false&allowPublicKeyRetrieval=true
-    username: root
+    url: jdbc:mysql://glint-db-1-instance-1.cl4g4ogcerb5.ap-northeast-2.rds.amazonaws.com:3306/glint?useSSL=false&allowPublicKeyRetrieval=true
+    username: glint
     password: glintserver
 #  data:
 #    redis:
